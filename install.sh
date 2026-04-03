@@ -222,10 +222,11 @@ enable_services() {
   sudo systemctl enable --now bluetooth.service || true
   sudo systemctl enable --now power-profiles-daemon.service || true
   sudo systemctl enable --now cups.service || true
-  sudo systemctl enable --now ly.service || true
+  sudo systemctl enable ly@tty2.service || true
+  sudo systemctl disable getty@tty2.service || true
 
   # PipeWire stack.
-  sudo systemctl enable --now pipewire-pulse.socket wireplumber.service || true
+  sudo systemctl enable --now wireplumber.service || true
   systemctl --user enable --now pipewire.socket pipewire-pulse.socket wireplumber.service || true
   systemctl --user enable --now pipewire.service || true
 }
