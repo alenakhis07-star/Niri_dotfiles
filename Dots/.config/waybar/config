@@ -1,0 +1,187 @@
+{
+    "modules-center": [
+        "clock"
+    ],
+    "modules-left": [
+        "group/power",
+        "custom/hypridle",
+        "niri/workspaces",
+        "tray"
+    ],
+    "modules-right": [
+        "keyboard-state",
+        "power-profiles-daemon",
+        "bluetooth",
+        "network",
+        "battery",
+        "pulseaudio",
+        "custom/notification"
+    ],
+    "keyboard-state": {
+        "numlock": false,
+        "capslock": false,
+        "format": "{layout}",
+        "format-us": "en",
+        "format-ru": "ru"
+    },
+    "group/power": {
+      "orientation": "inherit",
+      "drawer": {
+        "transition-duration": 500,
+        "children-class": "drawer-child",
+        "transition-left-to-right": true
+      },
+      "modules": [
+        "custom/power",
+        "custom/quit",
+        "custom/lock",
+        "custom/reboot"
+      ]
+    },
+    "custom/quit": {
+      "format": "󰗼",
+      "tooltip": false,
+      "on-click": "niri msg action quit"
+    },
+    "custom/lock": {
+      "format": "󰍁",
+      "tooltip": false,
+      "on-click": "hyprlock"
+    },
+    "custom/reboot": {
+      "format": "󰜉",
+      "tooltip": false,
+      "on-click": "reboot"
+    },
+    "custom/power": {
+        "format": "⏻",
+        "tooltip": false,
+        "on-click": "poweroff"
+    },
+    "niri/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{value}",
+        "cursor": true,
+        "on-click": "activate"
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 10,
+        "cursor": true
+    },
+    "bluetooth": {
+        "format": " 󰂯 ",
+        "format-disabled": " 󰂲 ",
+        "format-connected": " 󰂱 ",
+        "on-click": "blueman-manager"
+    },
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "  Ethernet",
+        "format-linked": "  Linked (No IP)",
+        "format-disconnected": "  Disconnected",
+        "tooltip": false,
+        "on-click": "iwgtk"
+    },
+    "battery": {
+        "states": {
+            "good": 85,
+            "warning": 40,
+            "critical": 20
+        },
+        "format": "{icon} {capacity}%",
+        "format-full": "{icon} {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-alt": "{icon} {capacity}%",
+        "format-icons": [
+            " ",
+            " ",
+            " ",
+            " ",
+            " "
+        ],
+        "tooltip-format": "{time}",
+        "cursor": false
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "  {volume}%",
+        "format-bluetooth": " {volume}%",
+        "format-bluetooth-muted": "  {volume}%",
+        "format-icons": {
+            "headphone": " ",
+            "headset": " ",
+            "default": [
+                " "
+            ]
+        },
+        "on-click": "pavucontrol"
+    },
+    "clock": {
+        "format": "{:%H:%M} ",
+        "format-alt": "{:%d.%m.%Y} 󰃭",
+        "tooltip-format": "<span size='15000'><tt>{calendar}</tt></span>",
+        "calendar": {
+            "mode": "month",
+            "format": {
+                "months": "<span color='#F5C2E7'><b>{}</b></span>",
+                "weekdays": "<span color='#89B4FA'><b>{}</b></span>",
+                "days": "<span color='#CDD6F4'><b>{}</b></span>",
+                "today": "<span color='#F9E2AF'><b>{}</b></span>"
+            }
+        }
+    },
+    "idle_inhibitor": {
+        "tooltip": true,
+        "tooltip-format-activated": "Idle_inhibitor active",
+        "tooltip-format-deactivated": "Idle_inhibitor not active",
+        "format": "{icon}",
+        "format-icons": {
+            "activated": " ",
+            "deactivated": " "
+        }
+    },
+    "custom/hypridle": {
+        "format": "󱫗",
+        "return-type": "json",
+        "escape": true,
+        "exec-on-event": true,
+        "interval": 60,
+        "exec": "$HOME/.config/niri/scripts/Hypridle.sh status",
+        "on-click": "$HOME/.config/niri/scripts/Hypridle.sh toggle",
+        "on-click-right": "hyprlock"
+    },
+    "custom/notification": {
+        "tooltip": true,
+        "format": "<span size='16pt'>{icon}</span>",
+        "format-icons": {
+            "notification": " 󱅫 ",
+            "none": " 󰂜 ",
+            "dnd-notification": " 󰂠 ",
+            "dnd-none": " 󰪓 ",
+            "inhibited-notification": " 󰂛 ",
+            "inhibited-none": " 󰪑 ",
+            "dnd-inhibited-notification": " 󰂛 ",
+            "dnd-inhibited-none": " 󰪑 "
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": " ",
+            "power-saver": ""
+        }
+    }
+}

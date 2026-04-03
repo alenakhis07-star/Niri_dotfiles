@@ -1,0 +1,110 @@
+// Niri configuration adapted from previous Hyprland setup.
+input {
+    keyboard {
+        xkb {
+            layout "us,ru"
+            options "grp:win_space_toggle"
+        }
+    }
+}
+
+layout {
+    gaps 5
+    border {
+        width 2
+        active-color "#e66cd9ff"
+        inactive-color "#595959aa"
+    }
+    focus-ring {
+        off
+    }
+    preset-column-widths {
+        proportion 0.5
+        proportion 1.0
+    }
+    default-column-width { proportion 0.5; }
+}
+
+prefer-no-csd
+screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
+
+environment {
+    XCURSOR_SIZE "24"
+    XCURSOR_THEME "Hackneyed-Magenta-Multi-Animated-24px"
+    QT_QPA_PLATFORM "wayland;xcb"
+    QT_QPA_PLATFORMTHEME "qt5ct"
+    SDL_VIDEODRIVER "wayland"
+    MOZ_ENABLE_WAYLAND "1"
+    ELECTRON_OZONE_PLATFORM_HINT "auto"
+    OZONE_PLATFORM "wayland"
+    XDG_SESSION_TYPE "wayland"
+}
+
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
+spawn-at-startup "swaybg" "-i" "~/Pictures/wallpapers/wallpaper.png"
+spawn-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
+spawn-at-startup "swaync"
+spawn-at-startup "swayidle" "-w" "timeout 300 loginctl lock-session timeout 420 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' timeout 600 'systemctl suspend'"
+spawn-at-startup "waybar"
+spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
+spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
+
+binds {
+    Mod+Return { spawn "kitty"; }
+    Mod+Q { close-window; }
+    Ctrl+Alt+Delete { quit; }
+    Mod+E { spawn "nautilus"; }
+    Mod+B { spawn "firefox"; }
+    Mod+D { spawn "rofi" "-show" "drun" "-modi" "drun,run"; }
+    Print { spawn "quickshell" "-c" "hyprquickshot" "-n"; }
+
+    Mod+F { fullscreen-window; }
+    Mod+L { spawn "hyprlock"; }
+    Mod+R { spawn "~/.config/niri/scripts/restore.sh"; }
+    Mod+V { spawn "~/.config/niri/scripts/clipboard.sh"; }
+    Mod+W { spawn "~/.config/niri/scripts/wallpaper.sh"; }
+    Mod+Shift+V { spawn "sh" "-c" "wl-copy --clear && rm -f ~/.cache/cliphist/db && notify-send 'Clipboard' 'Cleared buffer and history'"; }
+
+    Mod+Left  { focus-column-left; }
+    Mod+Right { focus-column-right; }
+    Mod+Up    { focus-window-up; }
+    Mod+Down  { focus-window-down; }
+
+    Mod+Ctrl+Left  { focus-workspace-down; }
+    Mod+Ctrl+Right { focus-workspace-up; }
+    Mod+WheelScrollDown { focus-workspace-down; }
+    Mod+WheelScrollUp { focus-workspace-up; }
+
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+0 { focus-workspace 10; }
+
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Shift+0 { move-column-to-workspace 10; }
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "-l" "1" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "-e4" "-n2" "set" "5%-"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+}
